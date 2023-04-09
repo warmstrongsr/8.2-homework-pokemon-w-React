@@ -1,44 +1,32 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import PostCard from "../components/PostCard";
-import { useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
-export default function SinglePost({ loggedIn, currentUser, flashMessage }) {
+export default function SinglePost({ loggedIn }) {
 	const params = useParams();
-
-	const [post, setPost] = useState({});
 	const navigate = useNavigate();
+
+	const [post, setPost] = useState({ title: "", content: "" });
+	const [title, setTitle] = useState("");
+	const [content, setContent] = useState("");
 
 	useEffect(() => {
 		fetch(`http://localhost:5000/api/posts/${params.postId}`)
 			.then((res) => res.json())
 			.then((data) => {
-				console.log(data);
 				setPost(data);
+				setTitle(data.title);
+				setContent(data.content);
 			});
 	}, [params.postId]);
 
 	async function handleSubmit(e) {
 		e.preventDefault();
 
-		// Check if the user is logged in
-		if (!loggedIn) {
-			flashMessage("You must be logged in to edit a post", "danger");
-			navigate("/login");
-			return;
-		}
+		// Get the updated data from the form
+		let updatedTitle = title;
+		let updatedContent = content;
 
-		// Check if the user is the owner of the post
-		if (post.author !== currentUser.username) {
-			flashMessage("You can only edit your own posts", "danger");
-			return;
-		}
-
-		// Get the data from the form
-		let title = e.target.title.value;
-		let content = e.target.content.value;
-
-		// Get the token from localStorage
+		// Get the JWT token from localStorage
 		let token = localStorage.getItem("token");
 
 		// Set up the request headers
@@ -47,7 +35,10 @@ export default function SinglePost({ loggedIn, currentUser, flashMessage }) {
 		myHeaders.append("Authorization", `Bearer ${token}`);
 
 		// Set up the request body
-		let requestBody = JSON.stringify({ title, content });
+		let requestBody = JSON.stringify({
+			title: updatedTitle,
+			content: updatedContent,
+		});
 
 		// Make the fetch request
 		let response = await fetch(
@@ -62,35 +53,39 @@ export default function SinglePost({ loggedIn, currentUser, flashMessage }) {
 		let data = await response.json();
 
 		if (data.error) {
-			flashMessage(data.error, "danger");
+			// Display the error if errors
+			console.error(data.error);
 		} else {
-			flashMessage(`${data.title} has been updated`, "primary");
+			// Display success if success
+			console.log(`${data.title} has been updated`);
 			navigate("/");
 		}
 	}
 
 	return (
 		<>
-			<h3 className="text-center">Edit A Post!</h3>
-			<form action="" onSubmit={handleSubmit}>
-				<div>
-					<PostCard post={post} />
+			<h3 className="text-center">Edit Post</h3>
+			<form onSubmit={handleSubmit}>
+				<div className="form-group">
 					<input
 						type="text"
 						name="title"
 						className="form-control my-3"
-						placeholder="Change Title"
+						placeholder="Enter Title"
+						value={title}
+						onChange={(e) => setTitle(e.target.value)}
 					/>
 					<textarea
 						name="content"
 						className="form-control my-3"
-						placeholder="Change Body"
+						placeholder="Enter Body"
+						value={content}
+						onChange={(e) => setContent(e.target.value)}
 					/>
 					<input
 						type="submit"
-						value="Edit Post"
+						value="Update Post"
 						className="btn btn-success w-100"
-						disabled={!loggedIn || post.author !== currentUser.username}
 					/>
 				</div>
 			</form>
