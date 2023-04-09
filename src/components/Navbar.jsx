@@ -1,13 +1,14 @@
-import React from 'react'
-import { Link } from 'react-router-dom';
+import React from "react";
+import { Link } from "react-router-dom";
 
-export default function Navbar() {
+export default function Navbar({ loggedIn, logUserOut }) {
 	// console.log(props);
+	// console.log(typeof props);
 	return (
 		<nav className="navbar navbar-expand-lg bg-body-tertiary">
 			<div className="container-fluid">
 				<Link className="navbar-brand" to="/">
-					Welcome  
+					Welcome
 				</Link>
 				<button
 					className="navbar-toggler"
@@ -22,19 +23,34 @@ export default function Navbar() {
 				</button>
 				<div className="collapse navbar-collapse" id="navbarNavAltMarkup">
 					<div className="navbar-nav">
-						<Link className="nav-link" to="/Home">
+						<Link className="nav-link" to="/">
 							Home
 						</Link>
-						<Link className="nav-link" to="/Pokemon">
-							Pokemon
-						</Link>
-						<Link className="nav-link" to="/">
-							Other
-						</Link>
+						{loggedIn ? (
+							<>
+								<Link className="nav-link" to="/create">
+									Create A Post
+								</Link>
+								<Link className="nav-link" to="/create">
+									Edit Your Post
+								</Link>
+								<Link className="nav-link" to="/" onClick={() => logUserOut()}>
+									Log Out
+								</Link>
+							</>
+						) : (
+							<>
+								<Link className="nav-link" to="/Signup">
+									Sign Up
+								</Link>
+								<Link className="nav-link" to="/login">
+									Log In
+								</Link>
+							</>
+						)}
 					</div>
 				</div>
 			</div>
 		</nav>
 	);
 }
-
