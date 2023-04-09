@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-export default function PostCard({ post, user }) {
+export default function PostCard({ post }) {
 	return (
 		<div className="card mt-3 ">
 			<div className="row g-0">
@@ -17,7 +17,7 @@ export default function PostCard({ post, user }) {
 					<div className="card-body">
 						<h6 className="card-subtitle text-muted">{post.date_created}</h6>
 						<h5 className="card-title">{post.title}</h5>
-						<h6 className="card-subtitle">Post: {post.id}</h6>
+						<h6 className="card-subtitle">By: {post.author}</h6>
 						<p className="card-text">{post.content}</p>
 						<Link className="btn btn-primary" to={`/posts/${post.id}`}>
 							See More

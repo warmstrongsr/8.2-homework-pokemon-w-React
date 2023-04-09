@@ -9,7 +9,7 @@ import Signup from "./views/Signup";
 import SinglePost from "./views/SinglePost";
 
 function App() {
-	let name = "Brian";
+	let name = "Will";
 
 	const now = new Date();
 
@@ -36,7 +36,7 @@ function App() {
 		<div className="App">
 			<Navbar
 				username={name}
-				city={"Chicago"}
+				city={""}
 				loggedIn={loggedIn}
 				logUserOut={logUserOut}
 			/>
