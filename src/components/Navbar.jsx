@@ -31,9 +31,7 @@ export default function Navbar({ loggedIn, logUserOut }) {
 								<Link className="nav-link" to="/create">
 									Create A Post
 								</Link>
-								<Link className="nav-link" to="/create">
-									Edit Your Post
-								</Link>
+							
 								<Link className="nav-link" to="/" onClick={() => logUserOut()}>
 									Log Out
 								</Link>

@@ -16,9 +16,9 @@ export default function PostCard({ post }) {
 				<div className="col-md-8">
 					<div className="card-body">
 						<h6 className="card-subtitle text-muted">{post.date_created}</h6>
-						<h5 className="card-title">{post.title}</h5>
-						<small className="card-subtitle">Post: {post.id} |</small>
-						<small className="card-subtitle"> By: {post.author}</small>
+						<h3 className="card-title">{post.title}</h3>
+						<h5 className="card-subtitle">Post: {post.id} </h5>
+						<h6 className="card-subtitle mt-2"> By: {post.author}</h6>
 						<p className="card-text">{post.content}</p>
 						<Link className="btn btn-primary" to={`/posts/${post.id}`}>
 							See More
