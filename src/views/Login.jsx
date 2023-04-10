@@ -40,7 +40,7 @@ export default function Login({ flashMessage, logUserIn }) {
             logUserIn(true);
 
             // flash a success message and redirect
-            flashMessage('You have successully logged in', 'success');
+            <flashMessage duration={3000}>('You have successully logged in', 'success');</flashMessage>
             navigate('/');
         };
 
